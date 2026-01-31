@@ -1,0 +1,71 @@
+[
+  {
+    "reason": "Root layout provides the app shell with global styles and metadata for the Next.js application",
+    "description": "Next.js App Router root layout component with global styles, metadata, and HTML structure. Provides the outer wrapper for all pages in the application.",
+    "dependencies": [],
+    "priority": 1,
+    "filename": "root_layout_TypeScriptReact.prompt",
+    "filepath": "app/layout.tsx",
+    "tags": [
+      "frontend",
+      "layout",
+      "nextjs"
+    ],
+    "interface": {
+      "type": "page",
+      "page": {
+        "route": "/",
+        "params": [],
+        "dataSources": []
+      }
+    }
+  },
+  {
+    "reason": "Home page displays an email input form that redirects to the task entry page after submission",
+    "description": "Landing page with email input form. Uses client-side validation and React state to collect user email, then redirects to /task page on submission. No backend integration - purely frontend form handling.",
+    "dependencies": [
+      "root_layout_TypeScriptReact.prompt"
+    ],
+    "priority": 2,
+    "filename": "home_page_TypeScriptReact.prompt",
+    "filepath": "app/page.tsx",
+    "tags": [
+      "frontend",
+      "page",
+      "nextjs",
+      "form"
+    ],
+    "interface": {
+      "type": "page",
+      "page": {
+        "route": "/",
+        "params": [],
+        "dataSources": []
+      }
+    }
+  },
+  {
+    "reason": "Task page displays a text box for entering tasks after email submission",
+    "description": "Task entry page with a large text area for users to enter their tasks. Receives user email from the previous page via URL params or client-side state. No backend integration - just frontend form display.",
+    "dependencies": [
+      "root_layout_TypeScriptReact.prompt"
+    ],
+    "priority": 3,
+    "filename": "task_page_TypeScriptReact.prompt",
+    "filepath": "app/task/page.tsx",
+    "tags": [
+      "frontend",
+      "page",
+      "nextjs",
+      "form"
+    ],
+    "interface": {
+      "type": "page",
+      "page": {
+        "route": "/task",
+        "params": [],
+        "dataSources": []
+      }
+    }
+  }
+]
