@@ -1,0 +1,49 @@
+You are tasked with creating the main application entry point that bootstraps and renders the React application into the DOM.
+
+Requirements
+1. Import React and ReactDOM libraries
+2. Import the root App component
+3. Use ReactDOM.createRoot for React 18+ concurrent rendering features
+4. Render the App component into the #root div element
+5. Follow modern React 18+ rendering patterns
+6. Keep the file minimal and focused on application bootstrapping
+7. Ensure proper error handling if root element is not found
+
+Dependencies
+<app>
+  <include>src/App.jsx</include>
+</app>
+
+<react_createroot_api_documentation>
+  <web>https://react.dev/reference/react-dom/client/createRoot</web>
+</react_createroot_api_documentation>
+
+Prompt Dependencies:
+- app_JavaScriptReact.prompt
+
+Instructions
+- Import React from 'react'
+- Import ReactDOM from 'react-dom/client'
+- Import App from './App.jsx'
+- Select the root DOM element using document.getElementById('root')
+- Create a React root using ReactDOM.createRoot(rootElement)
+- Render the App component using root.render(<App />)
+- Optionally wrap App in React.StrictMode for development checks
+- File location: src/main.jsx
+- Keep the code clean and minimal
+- No additional configuration or setup needed at this level
+
+Deliverable
+- A complete main.jsx file at src/
+- Application bootstrap code using React 18+ createRoot API
+- App component properly rendered into #root element
+- Clean, production-ready entry point following React best practices
+
+Implementation assumptions (explicit)
+- Using React 18+ with createRoot for concurrent features
+- The #root element exists in index.html
+- Vite will use this file as the application entry point
+- StrictMode is recommended for development (optional)
+- No additional global styles or providers at this level (handled in App)
+
+Please produce production-ready React bootstrap code as specified above.

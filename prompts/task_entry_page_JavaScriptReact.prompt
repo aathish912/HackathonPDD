@@ -1,0 +1,63 @@
+You are tasked with creating a React page component that provides a textarea for users to enter task descriptions after capturing their email.
+
+Requirements
+1. Create a functional React component that renders a task entry form
+2. Use controlled textarea pattern with useState for task input management
+3. Retrieve and display the stored email using the useEmailStorage hook
+4. Handle form submission to capture task input (preventDefault)
+5. Provide clear feedback showing which email is associated with the task
+6. Disable submit button when task input is empty or only whitespace
+7. Use accessible form elements with proper labels
+8. Handle textarea value changes with controlled component pattern
+9. Clear the textarea after successful submission (optional based on UX needs)
+10. Provide a clean, user-friendly interface for task entry
+
+Dependencies
+<use_email_storage>
+  <include>src/hooks/use-email-storage.jsx</include>
+</use_email_storage>
+
+<react_controlled_textarea_documentation>
+  <web>https://react.dev/reference/react-dom/components/textarea#controlling-a-text-area-with-a-state-variable</web>
+</react_controlled_textarea_documentation>
+
+Prompt Dependencies:
+- use_email_storage_JavaScriptReact.prompt
+
+Instructions
+- Import React, useState from 'react'
+- Import useEmailStorage from '../hooks/use-email-storage.jsx'
+- Create functional component: function TaskEntryPage()
+- Use useEmailStorage hook to get { email } for display
+- Use useState to manage task input value
+- Implement controlled textarea with value and onChange handler
+- Display the stored email prominently (e.g., "Logged in as: user@example.com")
+- Implement handleSubmit function that:
+  - Prevents default form submission
+  - Validates task is not empty/whitespace
+  - Logs or processes the task (console.log for now, as backend is not specified)
+  - Optionally clears the textarea after submission
+- Render a form with:
+  - Display of current user email
+  - Label and textarea for task entry
+  - Submit button (disabled when task is empty)
+- Handle edge case where email might not be stored (redirect or show warning)
+- Export default TaskEntryPage
+- File location: src/pages/task-entry.jsx
+- Use semantic HTML and accessible form elements
+
+Deliverable
+- A complete task-entry.jsx file at src/pages/
+- Functional React component with textarea form handling
+- Integration with useEmailStorage hook to display user email
+- Clean UI with form validation and submission handling
+- Accessible, user-friendly task entry interface
+
+Implementation assumptions (explicit)
+- Page is rendered at route "/tasks" by React Router
+- Email was previously captured and stored via EmailCapturePage
+- Task submission endpoint/logic is not yet implemented (use console.log)
+- Textarea should be multi-line for longer task descriptions
+- Form is client-side only at this stage (no API integration yet)
+
+Please produce production-ready React component code as specified above.

@@ -1,0 +1,95 @@
+version: "1.0"
+
+contexts:
+  # ============================================================
+  # CONFIGURATION FILES
+  # ============================================================
+
+  vite_config:
+    paths: ["*vite_config*"]
+    defaults:
+      outputs:
+        code:
+          path: "vite.config.js"
+
+  package_json:
+    paths: ["*package_json*"]
+    defaults:
+      outputs:
+        code:
+          path: "package.json"
+
+  index_html:
+    paths: ["*index_html*"]
+    defaults:
+      outputs:
+        code:
+          path: "index.html"
+
+  # ============================================================
+  # HOOKS
+  # ============================================================
+
+  use_email_storage:
+    paths: ["*use_email_storage*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/hooks/use-email-storage.jsx"
+
+  # ============================================================
+  # UTILITIES
+  # ============================================================
+
+  validate_email:
+    paths: ["*validate_email*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/utils/validate-email.js"
+
+  # ============================================================
+  # PAGES
+  # ============================================================
+
+  email_capture_page:
+    paths: ["*email_capture_page*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/pages/email-capture.jsx"
+
+  task_entry_page:
+    paths: ["*task_entry_page*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/pages/task-entry.jsx"
+
+  # ============================================================
+  # APP / ENTRY POINTS
+  # ============================================================
+
+  app:
+    paths: ["*app*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/App.jsx"
+
+  main:
+    paths: ["*main*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/main.jsx"
+
+  # ============================================================
+  # DEFAULT FALLBACK
+  # ============================================================
+  # CRITICAL: prompts_dir goes ONLY here, not in other contexts!
+
+  default:
+    defaults:
+      prompts_dir: "prompts/"
+      generate_output_path: "src/"

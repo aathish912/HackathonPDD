@@ -1,0 +1,54 @@
+You are tasked with creating a custom React hook that manages email storage and retrieval via browser localStorage for persistent user email data.
+
+Requirements
+1. Export a custom hook named useEmailStorage that manages email state
+2. Return an object with three properties: email (current value), setEmail (setter function), and clearEmail (clear function)
+3. Persist email to localStorage using the key 'userEmail'
+4. Sync state with localStorage on mount and when email changes
+5. Handle edge cases: missing localStorage, invalid JSON, null values
+6. Use React.useState for managing the current email state
+7. Use React.useEffect for syncing with localStorage
+8. Return type signature: { email: string | null, setEmail: (email: string) => void, clearEmail: () => void }
+
+Dependencies
+<react_usestate_hook_documentation>
+  <web>https://react.dev/reference/react/useState</web>
+</react_usestate_hook_documentation>
+
+<react_useeffect_hook_for_syncing_state_with_localstorage>
+  <web>https://react.dev/reference/react/useEffect</web>
+</react_useeffect_hook_for_syncing_state_with_localstorage>
+
+<mdn_localstorage_api_reference>
+  <web>https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage</web>
+</mdn_localstorage_api_reference>
+
+Instructions
+- Import useState and useEffect from 'react'
+- Initialize state with useState, reading from localStorage on mount
+- Implement setEmail function that:
+  - Updates React state
+  - Saves to localStorage.setItem('userEmail', email)
+- Implement clearEmail function that:
+  - Sets state to null
+  - Removes from localStorage.removeItem('userEmail')
+- Use useEffect to load email from localStorage on initial mount
+- Handle localStorage.getItem returning null gracefully
+- The hook should be a named export: export function useEmailStorage()
+- File location: src/hooks/use-email-storage.jsx
+- Use functional programming patterns for clean, testable code
+- Handle browser environments where localStorage might not be available (try/catch)
+
+Deliverable
+- A complete use-email-storage.jsx file at src/hooks/
+- Custom hook exporting useEmailStorage function
+- Proper localStorage integration with error handling
+- Clean, readable code with consistent state management
+
+Implementation assumptions (explicit)
+- Using React 18+ with hooks
+- localStorage is available in the browser (with fallback for SSR/errors)
+- Email is stored as plain string (not serialized JSON object)
+- Hook can be used in multiple components without conflicts
+
+Please produce production-ready code that implements the email storage hook as specified above.

@@ -1,0 +1,43 @@
+You are tasked with creating a pure validation utility function that ensures email format correctness using standard HTML5 email validation patterns.
+
+Requirements
+1. Export a pure function named validateEmail that takes an email string parameter
+2. Return a boolean: true if email format is valid, false otherwise
+3. Use HTML5 email input validation pattern for consistency with browser validation
+4. Handle edge cases: null, undefined, empty string, whitespace-only strings
+5. Do not perform async validation or check if email exists (only format validation)
+6. Keep the function stateless and side-effect free (pure function)
+7. Use a regex pattern that matches the HTML5 email specification
+
+Dependencies
+<mdn_documentation_for_html5_email_validation_patterns>
+  <web>https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#validation</web>
+</mdn_documentation_for_html5_email_validation_patterns>
+
+Instructions
+- Export a named function: export function validateEmail(email)
+- Handle falsy inputs (null, undefined, empty string) by returning false
+- Trim whitespace from the email before validation
+- Use a regex pattern that aligns with HTML5 email validation:
+  - Pattern should match: user@domain.tld format
+  - Allow alphanumeric characters, dots, hyphens, underscores in local part
+  - Require @ symbol
+  - Require domain with at least one dot and valid TLD
+- Return boolean result directly (no throwing errors)
+- File location: src/utils/validate-email.js
+- Keep the function simple, focused, and well-documented
+- Consider using: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ or similar pattern
+
+Deliverable
+- A complete validate-email.js file at src/utils/
+- Pure function validateEmail(email: string) => boolean
+- Proper edge case handling for invalid inputs
+- Clean, testable code with clear validation logic
+
+Implementation assumptions (explicit)
+- Only format validation is required (not existence checking)
+- HTML5 email pattern is sufficient for client-side validation
+- Function will be used by EmailCapturePage component
+- No external validation libraries are needed (native JavaScript only)
+
+Please produce production-ready code that implements the email validation utility as specified above.

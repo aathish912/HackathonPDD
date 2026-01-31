@@ -1,0 +1,41 @@
+You are tasked with creating the main HTML entry point file that serves as the root document for mounting the React application.
+
+Requirements
+1. Create a valid HTML5 document structure with proper DOCTYPE and meta tags
+2. Include a root div element with id="root" for React to mount the application
+3. Add essential meta tags for responsive design (viewport) and character encoding (UTF-8)
+4. Set an appropriate page title for the application
+5. Include script reference to the main.jsx entry point using type="module"
+6. Keep the HTML minimal and semantic, as React will handle the UI rendering
+7. Ensure the HTML is accessible and follows modern web standards
+
+Dependencies
+None - this is the HTML entry point that loads the React application
+
+Instructions
+- Start with `<!DOCTYPE html>` declaration
+- Use `<html lang="en">` for language specification
+- In the `<head>` section:
+  - Add `<meta charset="UTF-8" />` for character encoding
+  - Add viewport meta tag: `<meta name="viewport" content="width=device-width, initial-scale=1.0" />`
+  - Set a descriptive `<title>` (e.g., "Email Task App" or similar)
+- In the `<body>` section:
+  - Add a single `<div id="root"></div>` element where React will mount
+  - Add script tag: `<script type="module" src="/src/main.jsx"></script>`
+- Keep the body content minimal - React will populate the root div
+- Ensure proper indentation and formatting for readability
+- The file should be at the project root (index.html)
+
+Deliverable
+- A complete index.html file at the project root
+- Valid HTML5 structure with all required meta tags
+- Root div element properly configured for React mounting
+- Script reference to main.jsx entry point with type="module"
+
+Implementation assumptions (explicit)
+- Vite will process the script tag and bundle the application
+- React 18+ will use ReactDOM.createRoot to mount to #root
+- The main.jsx file exists at /src/main.jsx
+- Modern browsers with ES module support are targeted
+
+Please produce production-ready HTML content as specified above.
