@@ -1,0 +1,13 @@
+services:
+  backend:
+    container_name: backend-container
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PORT=3000
+
