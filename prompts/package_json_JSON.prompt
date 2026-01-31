@@ -1,0 +1,48 @@
+You are tasked with creating an NPM package.json manifest file that defines project dependencies, metadata, and build scripts for a React + Vite application.
+
+Requirements
+1. Set a descriptive project name (required string field)
+2. Set initial version to "1.0.0" or appropriate semantic version (required string field)
+3. Define npm scripts for development, build, and preview (required object field)
+4. Include React and React Router as production dependencies
+5. Include Vite and related dev dependencies (@vitejs/plugin-react)
+6. Specify "type": "module" for ES modules support
+7. Include all necessary scripts: dev (start dev server), build (production build), preview (preview build)
+8. Follow NPM package.json schema and best practices
+
+Dependencies
+None - this is a configuration file that defines project dependencies
+
+Instructions
+- Create a valid JSON package.json file with all required fields
+- Set "name" field to a descriptive package name (e.g., "email-task-app")
+- Set "version" to "1.0.0" for initial release
+- Set "type" to "module" to enable ES module syntax
+- Add "private": true to prevent accidental publication
+- Define "scripts" object with:
+  - "dev": "vite" - starts development server
+  - "build": "vite build" - creates production build
+  - "preview": "vite preview" - previews production build locally
+- Add "dependencies" with:
+  - "react": "^18.2.0" or latest stable
+  - "react-dom": "^18.2.0" or latest stable
+  - "react-router-dom": "^6.0.0" or latest stable
+- Add "devDependencies" with:
+  - "vite": "^5.0.0" or latest stable
+  - "@vitejs/plugin-react": compatible version
+- Ensure all version specifications use ^ for minor version flexibility
+
+Deliverable
+- A complete package.json file at the project root
+- Valid JSON syntax with all required fields
+- Scripts configured for Vite development workflow
+- All necessary dependencies for React + React Router + Vite stack
+
+Implementation assumptions (explicit)
+- Using React 18+ for concurrent features
+- Using React Router v6 for client-side routing
+- Using Vite 5+ for build tooling
+- Project is private and not intended for npm publication
+- ES module syntax is preferred
+
+Please produce production-ready package.json content as specified above.

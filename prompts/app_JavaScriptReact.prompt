@@ -1,0 +1,63 @@
+You are tasked with creating the root React application component that configures client-side routing between the email capture and task entry pages.
+
+Requirements
+1. Create a functional React component that serves as the application root
+2. Use React Router's BrowserRouter for client-side routing
+3. Define two routes: "/" for EmailCapturePage and "/tasks" for TaskEntryPage
+4. Wrap the entire application with routing context
+5. Import and render the page components within their respective routes
+6. Keep the component structure clean and maintainable
+7. Ensure proper route configuration for the application flow
+8. Export the App component as the default export
+
+Dependencies
+<email_capture_page>
+  <include>src/pages/email-capture.jsx</include>
+</email_capture_page>
+
+<task_entry_page>
+  <include>src/pages/task-entry.jsx</include>
+</task_entry_page>
+
+<react_router_browserrouter_documentation>
+  <web>https://reactrouter.com/en/main/router-components/browser-router</web>
+</react_router_browserrouter_documentation>
+
+<react_router_route_component>
+  <web>https://reactrouter.com/en/main/route/route</web>
+</react_router_route_component>
+
+Prompt Dependencies:
+- email_capture_page_JavaScriptReact.prompt
+- task_entry_page_JavaScriptReact.prompt
+
+Instructions
+- Import React from 'react'
+- Import { BrowserRouter, Routes, Route } from 'react-router-dom'
+- Import EmailCapturePage from './pages/email-capture.jsx'
+- Import TaskEntryPage from './pages/task-entry.jsx'
+- Create functional component: function App()
+- Return JSX structure:
+  - Wrap everything in <BrowserRouter>
+  - Inside, use <Routes> to define route configuration
+  - Add <Route path="/" element={<EmailCapturePage />} />
+  - Add <Route path="/tasks" element={<TaskEntryPage />} />
+- Export default App
+- File location: src/App.jsx
+- Keep the component simple and focused on routing configuration
+- No additional layout or styling at this level (pages handle their own UI)
+
+Deliverable
+- A complete App.jsx file at src/
+- Root React component with BrowserRouter configuration
+- Two routes properly configured for the application flow
+- Clean, minimal routing setup following React Router v6 patterns
+
+Implementation assumptions (explicit)
+- Using React Router v6 with BrowserRouter for client-side routing
+- EmailCapturePage is the landing page at "/"
+- TaskEntryPage is accessible at "/tasks" after email capture
+- No nested routes or layouts are needed at this stage
+- Pages are responsible for their own content and navigation logic
+
+Please produce production-ready React component code as specified above.

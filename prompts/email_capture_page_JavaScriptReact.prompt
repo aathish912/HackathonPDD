@@ -1,0 +1,74 @@
+You are tasked with creating a React page component that collects user email before allowing access to the task entry functionality.
+
+Requirements
+1. Create a functional React component that renders an email input form
+2. Use controlled input pattern with useState for email field management
+3. Validate email on blur using the validateEmail utility function
+4. Display validation error messages when email format is invalid
+5. Persist valid email to localStorage using the useEmailStorage hook
+6. Navigate to /tasks route on successful form submission using React Router's useNavigate
+7. Pre-fill the email input from localStorage if previously saved
+8. Disable submit button when email is invalid or empty
+9. Provide clear, accessible form labels and error messages
+10. Handle form submission properly (preventDefault)
+
+Dependencies
+<use_email_storage>
+  <include>src/hooks/use-email-storage.jsx</include>
+</use_email_storage>
+
+<validate_email>
+  <include>src/utils/validate-email.js</include>
+</validate_email>
+
+<react_controlled_input_documentation>
+  <web>https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable</web>
+</react_controlled_input_documentation>
+
+<react_router_usenavigate_hook>
+  <web>https://reactrouter.com/en/main/hooks/use-navigate</web>
+</react_router_usenavigate_hook>
+
+Prompt Dependencies:
+- use_email_storage_JavaScriptReact.prompt
+- validate_email_JavaScript.prompt
+
+Instructions
+- Import React, useState from 'react'
+- Import useNavigate from 'react-router-dom'
+- Import useEmailStorage from '../hooks/use-email-storage.jsx'
+- Import validateEmail from '../utils/validate-email.js'
+- Create functional component: function EmailCapturePage()
+- Use useEmailStorage hook to get { email, setEmail } (pre-fill from localStorage)
+- Use useState for local email input state and error state
+- Use useNavigate for navigation after submission
+- Implement controlled input with value and onChange handler
+- Implement onBlur handler that validates email and sets error state
+- Implement handleSubmit function that:
+  - Prevents default form submission
+  - Validates email using validateEmail
+  - If valid: calls setEmail from hook, then navigate('/tasks')
+  - If invalid: shows error message
+- Render a form with:
+  - Label and input for email (type="email")
+  - Error message display (conditional)
+  - Submit button (disabled when invalid)
+- Export default EmailCapturePage
+- File location: src/pages/email-capture.jsx
+- Use semantic HTML and accessible form elements
+
+Deliverable
+- A complete email-capture.jsx file at src/pages/
+- Functional React component with form handling
+- Integration with useEmailStorage hook and validateEmail utility
+- Navigation to /tasks on successful email capture
+- Clean UI with validation feedback
+
+Implementation assumptions (explicit)
+- Page is rendered at route "/" by React Router
+- localStorage is available via useEmailStorage hook
+- Navigate function from React Router v6 is used for navigation
+- Form uses native HTML5 email input for additional browser validation
+- Email is pre-filled from localStorage if available
+
+Please produce production-ready React component code as specified above.
