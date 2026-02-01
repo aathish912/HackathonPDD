@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "pdd_version": "0.0.135",
+  "timestamp_utc": "20260131T231834Z",
+  "argv": [
+    "sync",
+    "home_page",
+    "--dry-run"
+  ],
+  "cwd": "/tmp/pdd_job_nKOWrDBDOvnra8WF9wNF_e1oy_h86",
+  "platform": {
+    "system": "Linux",
+    "release": "4.4.0",
+    "version": "#1 SMP Sun Jan 10 15:06:54 PST 2016",
+    "python": "3.12.3 (main, Jan  8 2026, 11:30:50) [GCC 13.3.0]"
+  },
+  "global_options": {
+    "force": false,
+    "strength": null,
+    "temperature": null,
+    "time": 0.25,
+    "verbose": false,
+    "quiet": false,
+    "local": false,
+    "context": null,
+    "output_cost": null,
+    "review_examples": false
+  },
+  "invoked_subcommands": [
+    "sync"
+  ],
+  "total_cost": 0.0,
+  "steps": [
+    {
+      "step": 1,
+      "command": "sync",
+      "cost": 0.0,
+      "model": ""
+    }
+  ],
+  "errors": [],
+  "environment": {
+    "PDD_OUTPUT_COST_PATH": "/tmp/pdd_job_nKOWrDBDOvnra8WF9wNF_e1oy_h86/pdd_cost.csv",
+    "PDD_FORCE": "1",
+    "PDD_AUTO_UPDATE": "false",
+    "PDD_PATH": "/opt/pdd-repo/pdd",
+    "PATH": "/opt/venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+    "PDD_BOT_USERNAME": "prompt-driven-github[bot]"
+  },
+  "file_contents": {
+    ".pdd/meta/home_page_typescriptreact.json": "{\n  \"pdd_version\": \"0.0.135\",\n  \"timestamp\": \"2026-01-31T23:15:30.903437+00:00\",\n  \"command\": \"example\",\n  \"prompt_hash\": \"f590c1c7f38c58f254c10ddea942590923d7b3bb3538f93224d55f0f351f3ef8\",\n  \"code_hash\": \"a330a08010f3cff710b19e54eeb55405112fbaa94350d183249def4f303f281e\",\n  \"example_hash\": \"c74165f5e5647091e07cdb6a3f8fa29cce60add8dbe35bec5e778595348d4035\",\n  \"test_hash\": null,\n  \"test_files\": {}\n}",
+    ".pdd/meta/task_page_typescriptreact.json": "{\n  \"pdd_version\": \"0.0.135\",\n  \"timestamp\": \"2026-01-31T23:17:02.936369+00:00\",\n  \"command\": \"generate\",\n  \"prompt_hash\": \"987d9e1117abb180a71f87d60b1fc5c1cfd6777f50a782ddd181582c55fb432f\",\n  \"code_hash\": \"e2ec858f94bbd91822dc8820193a98b91b36062c06e708f331495b26b18033ab\",\n  \"example_hash\": null,\n  \"test_hash\": null,\n  \"test_files\": {}\n}",
+    ".pdd/meta/root_layout_typescriptreact.json": "{\n  \"pdd_version\": \"0.0.135\",\n  \"timestamp\": \"2026-01-31T23:11:27.024442+00:00\",\n  \"command\": \"example\",\n  \"prompt_hash\": \"25d57180e082ee12d3b4eb83ebb9e021b5ff5e5111189e0f9a8b862eb3de9d52\",\n  \"code_hash\": \"e7604ec0246ddf2754fb7317678087eee2d862fd6271f8ad54440247dbdfcae5\",\n  \"example_hash\": \"765649f795532acc9b66b5a7899e9e47e97de763affacfab037d7e4f85c104f8\",\n  \"test_hash\": null,\n  \"test_files\": {}\n}"
+  },
+  "terminal_output": "=== STDOUT ===\n\u256d\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500 PDD Sync Dry Run \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256e\n\u2502 Displaying sync analysis for home_page \u2502\n\u2570\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u256f\n\n--- Log for language: typescriptreact ---\n--- Sync Log for home_page (typescriptreact) ---\n[2026-01-31T23:07:02] N/A          | N/A | Est: $0.00\n[2026-01-31T23:07:02] N/A          | N/A | Est: $0.00\n[2026-01-31T23:07:41] N/A          | N/A | Est: $0.00\n[2026-01-31T23:07:41] N/A          | N/A | Est: $0.00\n[2026-01-31T23:10:04] N/A          | N/A | Est: $0.00\n[2026-01-31T23:10:04] generate     | New prompt ready for code generation | \u2713 $0.03 (est: $0.50) | 216.3s\n[2026-01-31T23:13:40] example      | Code exists but example missing - progress workflow | \u2713 $0.02 (est: $0.30) | 110.2s\n[2026-01-31T23:15:30] N/A          | N/A | Est: $0.00\n--- End of Log ---\n\n--- Command Execution Summary ---\n  Step 1 (sync): Cost: $0.000000, Model: \nTotal Estimated Cost: $0.000000\n-------------------------------------\n"
+}

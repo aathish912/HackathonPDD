@@ -1,0 +1,54 @@
+% Create a Next.js 14 App Router root layout component
+
+Create a root layout component for a Next.js 14 application using the App Router pattern.
+
+## Requirements
+
+1. **TypeScript + React**: Use TypeScript with React Server Component
+2. **Global Styles**: Import global CSS for consistent styling
+3. **Metadata**: Export metadata object with title and description
+4. **HTML Structure**: Provide proper HTML structure with lang attribute
+5. **Children Prop**: Accept and render children prop for nested pages
+6. **Clean Design**: Use a simple, modern design with good UX
+
+## Technical Details
+
+- File: app/layout.tsx
+- Use Next.js 14 App Router conventions
+- Export metadata object for SEO
+- Use server component (no "use client" directive needed)
+- Include basic responsive meta tags
+
+## Styling
+
+Use clean, modern CSS with:
+- Sans-serif font family
+- Neutral color palette
+- Responsive layout
+- Good spacing and typography
+
+## Example Structure
+
+```typescript
+import type { Metadata } from 'next'
+import './globals.css'
+
+export const metadata: Metadata = {
+  title: 'Task Manager',
+  description: 'Simple task management application',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
+}
+```
+
+Create the complete, production-ready root layout component.

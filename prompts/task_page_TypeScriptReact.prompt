@@ -1,0 +1,92 @@
+% Create a Next.js task entry page with text area
+
+Create a task entry page component for a Next.js 14 application where users can enter their tasks after providing their email.
+
+## Requirements
+
+1. **Client Component**: Use "use client" directive for interactivity
+2. **Task Input**: Large text area for task entry
+3. **Email Display**: Show the user's email (from previous page)
+4. **State Management**: Use React useState for task text
+5. **Form Handling**: Handle form submission (frontend only, no backend)
+6. **User Feedback**: Show success message or confirmation
+7. **Navigation**: Allow going back to edit email
+
+## Technical Details
+
+- File: app/task/page.tsx
+- Use Next.js 14 App Router with client component
+- Retrieve email from localStorage or URL params
+- Multi-line textarea for task description
+- No backend integration - purely frontend
+
+## User Flow
+
+1. User lands on page after email submission
+2. See email displayed (read from localStorage)
+3. Enter task description in large text area
+4. Submit button to "save" task (frontend only)
+5. Show success message after submission
+6. Option to add another task or go back
+
+## Styling
+
+Create a clean, modern design with:
+- Display user email at top
+- Large, prominent text area
+- Clear labels and instructions
+- Good spacing and typography
+- Responsive design
+- Accessible form controls
+
+## Example Structure
+
+```typescript
+'use client'
+
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
+export default function TaskPage() {
+  const [email, setEmail] = useState('')
+  const [task, setTask] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const router = useRouter()
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem('userEmail')
+    if (storedEmail) {
+      setEmail(storedEmail)
+    } else {
+      router.push('/')
+    }
+  }, [router])
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Frontend-only submission
+    setSubmitted(true)
+    // Could display task, clear form, etc.
+  }
+
+  return (
+    <main>
+      <h1>Enter Your Task</h1>
+      <p>Email: {email}</p>
+      <form onSubmit={handleSubmit}>
+        <textarea
+          value={task}
+          onChange={(e) => setTask(e.target.value)}
+          placeholder="Describe your task..."
+          rows={10}
+          required
+        />
+        <button type="submit">Submit Task</button>
+      </form>
+      {submitted && <p>Task submitted successfully!</p>}
+    </main>
+  )
+}
+```
+
+Create the complete, production-ready task entry page component.

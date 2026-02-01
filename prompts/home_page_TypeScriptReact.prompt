@@ -1,0 +1,78 @@
+% Create a Next.js home page with email input form
+
+Create a home page component for a Next.js 14 application that collects user email and redirects to a task entry page.
+
+## Requirements
+
+1. **Client Component**: Use "use client" directive for interactivity
+2. **Email Input**: Single email input field with validation
+3. **Form Handling**: Handle form submission with client-side validation
+4. **Redirection**: Redirect to /task page after email submission
+5. **State Management**: Use React useState for email state
+6. **Routing**: Use Next.js useRouter for navigation
+7. **UX**: Show validation errors, disable submit while invalid
+
+## Technical Details
+
+- File: app/page.tsx
+- Use Next.js 14 App Router with client component
+- Email validation using HTML5 or custom validation
+- Store email in localStorage or URL params for next page
+- Clean, centered form design
+
+## User Flow
+
+1. User sees centered form with email input
+2. User enters email address
+3. Client-side validation checks email format
+4. On valid submission, redirect to /task page
+5. Pass email via URL params or localStorage
+
+## Styling
+
+Create a clean, modern design with:
+- Centered card/form layout
+- Good spacing and typography
+- Clear labels and placeholders
+- Accessible form controls
+- Responsive design
+
+## Example Structure
+
+```typescript
+'use client'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+export default function HomePage() {
+  const [email, setEmail] = useState('')
+  const router = useRouter()
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Validate and redirect
+    if (email) {
+      localStorage.setItem('userEmail', email)
+      router.push('/task')
+    }
+  }
+
+  return (
+    <main>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Enter your email"
+          required
+        />
+        <button type="submit">Continue</button>
+      </form>
+    </main>
+  )
+}
+```
+
+Create the complete, production-ready home page component with email form.
