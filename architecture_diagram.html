@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html><head><meta charset="UTF-8"><title>Create Email frontend</title>
+<html><head><meta charset="UTF-8"><title>Create Frontend</title>
 <script type="module">
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
 mermaid.initialize({startOnLoad:true,theme:'default'});
 window.addEventListener('load', () => {
-    const moduleData = {"root_layout_TypeScriptReact": {"filename": "root_layout_TypeScriptReact.prompt", "priority": 1, "description": "Next.js App Router root layout component with global styles, metadata, and HTML structure. Provides the outer wrapper for all pages in the application.", "dependencies": [], "tags": ["frontend", "layout", "nextjs"], "filepath": "app/layout.tsx"}, "home_page_TypeScriptReact": {"filename": "home_page_TypeScriptReact.prompt", "priority": 2, "description": "Landing page with email input form. Uses client-side validation and React state to collect user email, then redirects to /task page on submission. No backend integration - purely frontend form handling.", "dependencies": ["root_layout_TypeScriptReact.prompt"], "tags": ["frontend", "page", "nextjs", "form"], "filepath": "app/page.tsx"}, "task_page_TypeScriptReact": {"filename": "task_page_TypeScriptReact.prompt", "priority": 3, "description": "Task entry page with a large text area for users to enter their tasks. Receives user email from the previous page via URL params or client-side state. No backend integration - just frontend form display.", "dependencies": ["root_layout_TypeScriptReact.prompt"], "tags": ["frontend", "page", "nextjs", "form"], "filepath": "app/task/page.tsx"}};
+    const moduleData = {"vite_config_JavaScript": {"filename": "vite_config_JavaScript.prompt", "priority": 1, "description": "Vite config file specifying React plugin, dev server port, build output directory, and module resolution settings for the frontend application.", "dependencies": [], "tags": ["config", "vite", "build"], "filepath": "vite.config.js"}, "package_json_JSON": {"filename": "package_json_JSON.prompt", "priority": 2, "description": "NPM package.json with React, React Router, and Vite dependencies. Includes scripts for dev server, production build, and preview.", "dependencies": [], "tags": ["config", "npm", "dependencies"], "filepath": "package.json"}, "index_html_HTML": {"filename": "index_html_HTML.prompt", "priority": 3, "description": "Main HTML file with root div element for React to mount. Includes meta tags, title, and script reference to main.jsx entry point.", "dependencies": [], "tags": ["html", "entry"], "filepath": "index.html"}, "use_email_storage_JavaScriptReact": {"filename": "use_email_storage_JavaScriptReact.prompt", "priority": 4, "description": "React hook providing getEmail, setEmail, and clearEmail functions. Persists email to localStorage with key 'userEmail'. Returns current email state and mutation functions.", "dependencies": [], "tags": ["hook", "storage", "state"], "filepath": "src/hooks/use-email-storage.jsx"}, "validate_email_JavaScript": {"filename": "validate_email_JavaScript.prompt", "priority": 5, "description": "Pure function validating email format using HTML5 email input pattern. Returns boolean indicating validity. Used by EmailCapturePage for client-side validation.", "dependencies": [], "tags": ["validation", "utility"], "filepath": "src/utils/validate-email.js"}, "email_capture_page_JavaScriptReact": {"filename": "email_capture_page_JavaScriptReact.prompt", "priority": 6, "description": "React component rendering email input form with validation on blur. Uses useEmailStorage hook to persist email and validateEmail utility for validation. Navigates to /tasks on valid submission using React Router.", "dependencies": ["use_email_storage_JavaScriptReact.prompt", "validate_email_JavaScript.prompt"], "tags": ["page", "form", "email"], "filepath": "src/pages/email-capture.jsx"}, "task_entry_page_JavaScriptReact": {"filename": "task_entry_page_JavaScriptReact.prompt", "priority": 7, "description": "React component with textarea for task entry. Uses useEmailStorage to retrieve stored email and display it. Includes form submission handling with controlled textarea state.", "dependencies": ["use_email_storage_JavaScriptReact.prompt"], "tags": ["page", "form", "task"], "filepath": "src/pages/task-entry.jsx"}, "app_JavaScriptReact": {"filename": "app_JavaScriptReact.prompt", "priority": 8, "description": "Root React component using React Router with BrowserRouter. Defines routes for / (EmailCapturePage) and /tasks (TaskEntryPage). Wraps application with routing context.", "dependencies": ["email_capture_page_JavaScriptReact.prompt", "task_entry_page_JavaScriptReact.prompt"], "tags": ["app", "router", "root"], "filepath": "src/App.jsx"}, "main_JavaScriptReact": {"filename": "main_JavaScriptReact.prompt", "priority": 9, "description": "Application bootstrap file that imports React, ReactDOM, and App component. Renders App into root div element using ReactDOM.createRoot for React 18+ concurrent features.", "dependencies": ["app_JavaScriptReact.prompt"], "tags": ["entry", "bootstrap"], "filepath": "src/main.jsx"}};
     
     // Add hover listeners to all nodes
     setTimeout(() => {
@@ -76,26 +76,40 @@ h1{font-size:2rem;font-weight:600;margin-bottom:2rem;padding-bottom:1rem;border-
 .node{transition:opacity 0.2s}
 .node:hover{opacity:0.8}
 </style></head><body>
-<h1>Create Email frontend</h1>
+<h1>Create Frontend</h1>
 <div class="diagram"><pre class="mermaid">flowchart TB
-        PRD["Create Email frontend"]
+        PRD["Create Frontend"]
     
     subgraph Frontend
-        root_layout_TypeScriptReact["root_layout_TypeScriptReact (1)"]
-        home_page_TypeScriptReact["home_page_TypeScriptReact (2)"]
-        task_page_TypeScriptReact["task_page_TypeScriptReact (3)"]
+        email_capture_page_JavaScriptReact["email_capture_page_JavaScriptReact (6)"]
+        task_entry_page_JavaScriptReact["task_entry_page_JavaScriptReact (7)"]
+    end
+    
+    subgraph Shared
+        vite_config_JavaScript["vite_config_JavaScript (1)"]
+        package_json_JSON["package_json_JSON (2)"]
+        index_html_HTML["index_html_HTML (3)"]
+        use_email_storage_JavaScriptReact["use_email_storage_JavaScriptReact (4)"]
+        validate_email_JavaScript["validate_email_JavaScript (5)"]
+        app_JavaScriptReact["app_JavaScriptReact (8)"]
+        main_JavaScriptReact["main_JavaScriptReact (9)"]
     end
     
     PRD --> Frontend
 
-    home_page_TypeScriptReact -->|uses| root_layout_TypeScriptReact
-    task_page_TypeScriptReact -->|uses| root_layout_TypeScriptReact
+    email_capture_page_JavaScriptReact -->|uses| use_email_storage_JavaScriptReact
+    email_capture_page_JavaScriptReact -->|uses| validate_email_JavaScript
+    task_entry_page_JavaScriptReact -->|uses| use_email_storage_JavaScriptReact
+    app_JavaScriptReact -->|uses| email_capture_page_JavaScriptReact
+    app_JavaScriptReact -->|uses| task_entry_page_JavaScriptReact
+    main_JavaScriptReact -->|uses| app_JavaScriptReact
     
     classDef frontend fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
     classDef backend fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
     classDef shared fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
     classDef system fill:#E0E0E0,stroke:#616161,stroke-width:3px
     
-    class root_layout_TypeScriptReact,home_page_TypeScriptReact,task_page_TypeScriptReact frontend
+    class email_capture_page_JavaScriptReact,task_entry_page_JavaScriptReact frontend
+    class vite_config_JavaScript,package_json_JSON,index_html_HTML,use_email_storage_JavaScriptReact,validate_email_JavaScript,app_JavaScriptReact,main_JavaScriptReact shared
     class PRD system</pre></div>
 </body></html>

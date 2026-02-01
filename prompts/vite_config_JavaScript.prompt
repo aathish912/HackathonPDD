@@ -1,0 +1,43 @@
+You are tasked with creating a Vite configuration file for a React frontend application that defines build tooling and development server setup.
+
+Requirements
+1. Configure Vite with the React plugin (@vitejs/plugin-react) to enable React support with Fast Refresh
+2. Set up development server configuration with port 3000 (configurable via server.port)
+3. Define build output directory as 'dist' (configurable via build.outDir)
+4. Include module resolution settings for proper path aliasing and imports
+5. Ensure the configuration is production-ready with optimized build settings
+6. Follow Vite best practices for React project configuration
+7. Keep the configuration minimal and focused on essential settings
+
+Dependencies
+<vite_configuration_reference>
+  <web>https://vite.dev/config/</web>
+</vite_configuration_reference>
+
+<vite_getting_started_guide>
+  <web>https://vite.dev/guide/</web>
+</vite_getting_started_guide>
+
+Instructions
+- Export a default Vite configuration object using defineConfig from 'vite'
+- Import and register @vitejs/plugin-react in the plugins array
+- Configure server.port to 3000 for local development
+- Set build.outDir to 'dist' for production builds
+- Add resolve.alias if needed for @ path mapping to src directory
+- Keep the configuration clean and well-commented for maintainability
+- Ensure compatibility with React 18+ features
+- The configuration file should be at the root level (vite.config.js)
+
+Deliverable
+- A complete vite.config.js file at the project root
+- Configuration should enable React development with hot module replacement
+- Build configuration optimized for production deployment
+- Clear, maintainable code following JavaScript ES modules syntax
+
+Implementation assumptions (explicit)
+- Using @vitejs/plugin-react for React support (not @vitejs/plugin-react-swc)
+- Development server runs on port 3000 by default
+- Build output goes to dist/ directory
+- Modern JavaScript syntax (ES modules) is supported
+
+Please produce production-ready code that implements the Vite configuration as specified above.

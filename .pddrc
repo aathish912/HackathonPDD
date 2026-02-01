@@ -2,29 +2,87 @@ version: "1.0"
 
 contexts:
   # ============================================================
-  # PAGES (Next.js App Router)
+  # CONFIGURATION FILES
   # ============================================================
 
-  root_layout:
-    paths: ["*root_layout*"]
+  vite_config:
+    paths: ["*vite_config*"]
     defaults:
       outputs:
         code:
-          path: "app/layout.tsx"
+          path: "vite.config.js"
 
-  home_page:
-    paths: ["*home_page*"]
+  package_json:
+    paths: ["*package_json*"]
     defaults:
       outputs:
         code:
-          path: "app/page.tsx"
+          path: "package.json"
 
-  task_page:
-    paths: ["*task_page*"]
+  index_html:
+    paths: ["*index_html*"]
     defaults:
       outputs:
         code:
-          path: "app/task/page.tsx"
+          path: "index.html"
+
+  # ============================================================
+  # HOOKS
+  # ============================================================
+
+  use_email_storage:
+    paths: ["*use_email_storage*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/hooks/use-email-storage.jsx"
+
+  # ============================================================
+  # UTILITIES
+  # ============================================================
+
+  validate_email:
+    paths: ["*validate_email*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/utils/validate-email.js"
+
+  # ============================================================
+  # PAGES
+  # ============================================================
+
+  email_capture_page:
+    paths: ["*email_capture_page*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/pages/email-capture.jsx"
+
+  task_entry_page:
+    paths: ["*task_entry_page*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/pages/task-entry.jsx"
+
+  # ============================================================
+  # APP / ENTRY POINTS
+  # ============================================================
+
+  app:
+    paths: ["*app*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/App.jsx"
+
+  main:
+    paths: ["*main*"]
+    defaults:
+      outputs:
+        code:
+          path: "src/main.jsx"
 
   # ============================================================
   # DEFAULT FALLBACK

@@ -1,39 +1,96 @@
 [
   {
-    "reason": "Root layout provides the app shell with global styles and metadata for the Next.js application",
-    "description": "Next.js App Router root layout component with global styles, metadata, and HTML structure. Provides the outer wrapper for all pages in the application.",
+    "reason": "Vite configuration defines build tooling and dev server setup",
+    "description": "Vite config file specifying React plugin, dev server port, build output directory, and module resolution settings for the frontend application.",
     "dependencies": [],
     "priority": 1,
-    "filename": "root_layout_TypeScriptReact.prompt",
-    "filepath": "app/layout.tsx",
+    "filename": "vite_config_JavaScript.prompt",
+    "filepath": "vite.config.js",
     "tags": [
-      "frontend",
-      "layout",
-      "nextjs"
+      "config",
+      "vite",
+      "build"
+    ],
+    "context_urls": [
+      {
+        "url": "https://vite.dev/config/",
+        "purpose": "Vite configuration reference for setting up React project with dev server and build options"
+      },
+      {
+        "url": "https://vite.dev/guide/",
+        "purpose": "Vite getting started guide for understanding project structure and configuration patterns"
+      }
     ],
     "interface": {
-      "type": "page",
-      "page": {
-        "route": "/",
-        "params": [],
-        "dataSources": []
+      "type": "config",
+      "config": {
+        "keys": [
+          {
+            "name": "server.port",
+            "type": "number",
+            "default": "3000",
+            "required": false,
+            "source": "file"
+          },
+          {
+            "name": "build.outDir",
+            "type": "string",
+            "default": "dist",
+            "required": false,
+            "source": "file"
+          }
+        ]
       }
     }
   },
   {
-    "reason": "Home page displays an email input form that redirects to the task entry page after submission",
-    "description": "Landing page with email input form. Uses client-side validation and React state to collect user email, then redirects to /task page on submission. No backend integration - purely frontend form handling.",
-    "dependencies": [
-      "root_layout_TypeScriptReact.prompt"
-    ],
+    "reason": "Package manifest defines project dependencies and build scripts",
+    "description": "NPM package.json with React, React Router, and Vite dependencies. Includes scripts for dev server, production build, and preview.",
+    "dependencies": [],
     "priority": 2,
-    "filename": "home_page_TypeScriptReact.prompt",
-    "filepath": "app/page.tsx",
+    "filename": "package_json_JSON.prompt",
+    "filepath": "package.json",
     "tags": [
-      "frontend",
-      "page",
-      "nextjs",
-      "form"
+      "config",
+      "npm",
+      "dependencies"
+    ],
+    "interface": {
+      "type": "config",
+      "config": {
+        "keys": [
+          {
+            "name": "name",
+            "type": "string",
+            "required": true,
+            "source": "file"
+          },
+          {
+            "name": "version",
+            "type": "string",
+            "required": true,
+            "source": "file"
+          },
+          {
+            "name": "scripts",
+            "type": "object",
+            "required": true,
+            "source": "file"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "reason": "HTML entry point mounts the React application",
+    "description": "Main HTML file with root div element for React to mount. Includes meta tags, title, and script reference to main.jsx entry point.",
+    "dependencies": [],
+    "priority": 3,
+    "filename": "index_html_HTML.prompt",
+    "filepath": "index.html",
+    "tags": [
+      "html",
+      "entry"
     ],
     "interface": {
       "type": "page",
@@ -45,26 +102,204 @@
     }
   },
   {
-    "reason": "Task page displays a text box for entering tasks after email submission",
-    "description": "Task entry page with a large text area for users to enter their tasks. Receives user email from the previous page via URL params or client-side state. No backend integration - just frontend form display.",
-    "dependencies": [
-      "root_layout_TypeScriptReact.prompt"
-    ],
-    "priority": 3,
-    "filename": "task_page_TypeScriptReact.prompt",
-    "filepath": "app/task/page.tsx",
+    "reason": "Custom hook manages email storage and retrieval via localStorage",
+    "description": "React hook providing getEmail, setEmail, and clearEmail functions. Persists email to localStorage with key 'userEmail'. Returns current email state and mutation functions.",
+    "dependencies": [],
+    "priority": 4,
+    "filename": "use_email_storage_JavaScriptReact.prompt",
+    "filepath": "src/hooks/use-email-storage.jsx",
     "tags": [
-      "frontend",
+      "hook",
+      "storage",
+      "state"
+    ],
+    "context_urls": [
+      {
+        "url": "https://react.dev/reference/react/useState",
+        "purpose": "React useState hook documentation for managing email state"
+      },
+      {
+        "url": "https://react.dev/reference/react/useEffect",
+        "purpose": "React useEffect hook for syncing state with localStorage"
+      },
+      {
+        "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage",
+        "purpose": "MDN localStorage API reference for persistent email storage"
+      }
+    ],
+    "interface": {
+      "type": "module",
+      "module": {
+        "functions": [
+          {
+            "name": "useEmailStorage",
+            "signature": "() => { email: string | null, setEmail: (email: string) => void, clearEmail: () => void }",
+            "returns": "Email storage hook interface"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "reason": "Validation utility ensures email format correctness",
+    "description": "Pure function validating email format using HTML5 email input pattern. Returns boolean indicating validity. Used by EmailCapturePage for client-side validation.",
+    "dependencies": [],
+    "priority": 5,
+    "filename": "validate_email_JavaScript.prompt",
+    "filepath": "src/utils/validate-email.js",
+    "tags": [
+      "validation",
+      "utility"
+    ],
+    "context_urls": [
+      {
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#validation",
+        "purpose": "MDN documentation for HTML5 email validation patterns and best practices"
+      }
+    ],
+    "interface": {
+      "type": "module",
+      "module": {
+        "functions": [
+          {
+            "name": "validateEmail",
+            "signature": "(email: string) => boolean",
+            "returns": "true if valid email format, false otherwise"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "reason": "Email capture page collects user email before task entry",
+    "description": "React component rendering email input form with validation on blur. Uses useEmailStorage hook to persist email and validateEmail utility for validation. Navigates to /tasks on valid submission using React Router.",
+    "dependencies": [
+      "use_email_storage_JavaScriptReact.prompt",
+      "validate_email_JavaScript.prompt"
+    ],
+    "priority": 6,
+    "filename": "email_capture_page_JavaScriptReact.prompt",
+    "filepath": "src/pages/email-capture.jsx",
+    "tags": [
       "page",
-      "nextjs",
-      "form"
+      "form",
+      "email"
+    ],
+    "context_urls": [
+      {
+        "url": "https://react.dev/reference/react-dom/components/input#controlling-an-input-with-a-state-variable",
+        "purpose": "React controlled input documentation for email form field"
+      },
+      {
+        "url": "https://reactrouter.com/en/main/hooks/use-navigate",
+        "purpose": "React Router useNavigate hook for programmatic navigation to task page"
+      }
     ],
     "interface": {
       "type": "page",
       "page": {
-        "route": "/task",
+        "route": "/",
         "params": [],
-        "dataSources": []
+        "dataSources": [
+          {
+            "kind": "cache",
+            "source": "localStorage.userEmail",
+            "description": "Pre-fill email from previous session if available"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "reason": "Task entry page provides textarea for user task input",
+    "description": "React component with textarea for task entry. Uses useEmailStorage to retrieve stored email and display it. Includes form submission handling with controlled textarea state.",
+    "dependencies": [
+      "use_email_storage_JavaScriptReact.prompt"
+    ],
+    "priority": 7,
+    "filename": "task_entry_page_JavaScriptReact.prompt",
+    "filepath": "src/pages/task-entry.jsx",
+    "tags": [
+      "page",
+      "form",
+      "task"
+    ],
+    "context_urls": [
+      {
+        "url": "https://react.dev/reference/react-dom/components/textarea#controlling-a-text-area-with-a-state-variable",
+        "purpose": "React controlled textarea documentation for task input field"
+      }
+    ],
+    "interface": {
+      "type": "page",
+      "page": {
+        "route": "/tasks",
+        "params": [],
+        "dataSources": [
+          {
+            "kind": "cache",
+            "source": "localStorage.userEmail",
+            "description": "Display stored email from email capture page"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "reason": "App component configures routing between email and task pages",
+    "description": "Root React component using React Router with BrowserRouter. Defines routes for / (EmailCapturePage) and /tasks (TaskEntryPage). Wraps application with routing context.",
+    "dependencies": [
+      "email_capture_page_JavaScriptReact.prompt",
+      "task_entry_page_JavaScriptReact.prompt"
+    ],
+    "priority": 8,
+    "filename": "app_JavaScriptReact.prompt",
+    "filepath": "src/App.jsx",
+    "tags": [
+      "app",
+      "router",
+      "root"
+    ],
+    "context_urls": [
+      {
+        "url": "https://reactrouter.com/en/main/router-components/browser-router",
+        "purpose": "React Router BrowserRouter documentation for client-side routing setup"
+      },
+      {
+        "url": "https://reactrouter.com/en/main/route/route",
+        "purpose": "React Router Route component for defining page routes"
+      }
+    ],
+    "interface": {
+      "type": "component",
+      "component": {
+        "props": []
+      }
+    }
+  },
+  {
+    "reason": "Main entry point renders React app into DOM",
+    "description": "Application bootstrap file that imports React, ReactDOM, and App component. Renders App into root div element using ReactDOM.createRoot for React 18+ concurrent features.",
+    "dependencies": [
+      "app_JavaScriptReact.prompt"
+    ],
+    "priority": 9,
+    "filename": "main_JavaScriptReact.prompt",
+    "filepath": "src/main.jsx",
+    "tags": [
+      "entry",
+      "bootstrap"
+    ],
+    "context_urls": [
+      {
+        "url": "https://react.dev/reference/react-dom/client/createRoot",
+        "purpose": "React createRoot API documentation for rendering the application"
+      }
+    ],
+    "interface": {
+      "type": "module",
+      "module": {
+        "functions": []
       }
     }
   }
