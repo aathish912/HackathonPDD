@@ -5,6 +5,7 @@
 __pycache__/
 *.py[codz]
 *$py.class
+node_modules/
 
 # C extensions
 *.so
@@ -54,6 +55,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+node_modules/
 
 # Translations
 *.mo
