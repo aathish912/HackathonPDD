@@ -1,10 +1,12 @@
-from fastapi import FastAPI
+# main.py
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 import uvicorn
 
-origins = [
-    "http://localhost:3000"
-]
+
+
+origins = ["http://localhost:3000"]
 
 app = FastAPI()
 app.add_middleware(
@@ -15,11 +17,33 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class StartBody(BaseModel):
+    message: str
+
+class ContinueBody(BaseModel):
+    run_id: str
+    message: str
 
 @app.get("/")
 async def read_root():
     return {"Hello": "World"}
 
+@app.post("/chat/start")
+async def chat_start(body: StartBody):
+    try:
+        result = await start_conversation(body.message)
+        return result
+    except ToolhouseError as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
+@app.post("/chat/continue")
+async def chat_continue(body: ContinueBody):
+    try:
+        result = await continue_conversation(body.run_id, body.message)
+        return result
+    except ToolhouseError as e:
+        raise HTTPException(status_code=502, detail=str(e))
+
 if __name__ == "__main__":
-    uvicorn.run("main:app",reload=True)
+    uvicorn.run("main:app", reload=True)
 
