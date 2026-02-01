@@ -1,1 +1,331 @@
-'use client'\n\nimport * as React from 'react'\nimport { useRouter, useSearchParams } from 'next/navigation'\n\nexport default function TaskPage() {\n  const router = useRouter()\n  const searchParams = useSearchParams()\n\n  const [email, setEmail] = React.useState('')\n  const [task, setTask] = React.useState('')\n  const [submitted, setSubmitted] = React.useState(false)\n  const [lastSavedTask, setLastSavedTask] = React.useState<string | null>(null)\n  const [error, setError] = React.useState<string | null>(null)\n\n  // Load email from URL (?email=...) or localStorage (userEmail)\n  React.useEffect(() => {\n    const emailFromUrl = searchParams.get('email')?.trim()\n    const emailFromStorage =\n      typeof window !== 'undefined' ? localStorage.getItem('userEmail') : null\n\n    const resolvedEmail = emailFromUrl || emailFromStorage || ''\n\n    if (!resolvedEmail) {\n      // No email available; redirect user back to email entry page\n      router.replace('/')\n      return\n    }\n\n    setEmail(resolvedEmail)\n\n    // Persist for refreshes/navigation\n    try {\n      localStorage.setItem('userEmail', resolvedEmail)\n    } catch {\n      // Ignore storage failures (private mode, etc.)\n    }\n  }, [router, searchParams])\n\n  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {\n    e.preventDefault()\n    setError(null)\n    setSubmitted(false)\n\n    const trimmed = task.trim()\n    if (!trimmed) {\n      setError('Please enter a task before submitting.')\n      return\n    }\n\n    // Frontend-only 'save': store the last task and show confirmation.\n    setLastSavedTask(trimmed)\n    setSubmitted(true)\n\n    // Optionally clear the textarea for 'add another'\n    setTask('')\n  }\n\n  function handleAddAnother() {\n    setSubmitted(false)\n    setError(null)\n    setTask('')\n  }\n\n  function handleBackToEmail() {\n    // Optionally keep stored email; user can edit it on the previous page.\n    router.push('/')\n  }\n\n  return (\n    <main style={styles.page}>\n      <div style={styles.card}>\n        <header style={styles.header}>\n          <div>\n            <h1 style={styles.title}>Enter your task</h1>\n            <p style={styles.subtitle}>\n              Add a task description below. This is saved on the frontend only.\n            </p>\n          </div>\n\n          <div style={styles.emailWrap} aria-label='Signed in email'>\n            <span style={styles.emailLabel}>Email</span>\n            <span style={styles.emailValue} title={email}>\n              {email}\n            </span>\n          </div>\n        </header>\n\n        <form onSubmit={handleSubmit} style={styles.form} aria-describedby='task-help'>\n          <label htmlFor='task' style={styles.label}>\n            Task description\n          </label>\n\n          <p id='task-help' style={styles.helpText}>\n            Be as detailed as you like. Use multiple lines for steps, notes, or acceptance criteria.\n          </p>\n\n          <textarea\n            id='task'\n            name='task'\n            value={task}\n            onChange={(e) => {\n              setTask(e.target.value)\n              if (submitted) setSubmitted(false)\n              if (error) setError(null)\n            }}\n            placeholder='Example: Draft a project outline for Q1, including milestones and owners…'\n            rows={10}\n            required\n            style={styles.textarea}\n          />\n\n          {error && (\n            <div role='alert' style={styles.errorBox}>\n              {error}\n            </div>\n          )}\n\n          <div style={styles.actions}>\n            <button type='submit' style={styles.primaryButton}>\n              Save task\n            </button>\n\n            <button type='button' onClick={handleBackToEmail} style={styles.secondaryButton}>\n              Back to email\n            </button>\n          </div>\n        </form>\n\n        {submitted && (\n          <section style={styles.successBox} aria-live='polite'>\n            <h2 style={styles.successTitle}>Saved!</h2>\n            <p style={styles.successText}>Your task was recorded (frontend only).</p>\n\n            {lastSavedTask && (\n              <div style={styles.previewBox}>\n                <div style={styles.previewLabel}>Last saved task</div>\n                <pre style={styles.previewText}>{lastSavedTask}</pre>\n              </div>\n            )}\n\n            <div style={styles.actions}>\n              <button type='button' onClick={handleAddAnother} style={styles.primaryButton}>\n                Add another task\n              </button>\n              <button type='button' onClick={handleBackToEmail} style={styles.secondaryButton}>\n                Edit email\n              </button>\n            </div>\n          </section>\n        )}\n\n        <footer style={styles.footer}>\n          <span style={styles.footerText}>\n            Tip: you can also pass email via URL: <code style={styles.code}>/task?email=you@example.com</code>\n          </span>\n        </footer>\n      </div>\n    </main>\n  )\n}\n\nconst styles: Record<string, React.CSSProperties> = {\n  page: {\n    minHeight: '100vh',\n    padding: '24px',\n    display: 'grid',\n    placeItems: 'center',\n    background:\n      'radial-gradient(1200px 600px at 20% 0%, rgba(99, 102, 241, 0.18), transparent 60%), radial-gradient(1200px 600px at 80% 20%, rgba(16, 185, 129, 0.14), transparent 55%), #0b1020',\n    color: '#e5e7eb',\n  },\n  card: {\n    width: '100%',\n    maxWidth: 860,\n    borderRadius: 16,\n    border: '1px solid rgba(255,255,255,0.10)',\n    background: 'rgba(17, 24, 39, 0.72)',\n    boxShadow: '0 20px 60px rgba(0,0,0,0.35)',\n    backdropFilter: 'blur(10px)',\n    padding: 20,\n  },\n  header: {\n    display: 'flex',\n    gap: 16,\n    justifyContent: 'space-between',\n    alignItems: 'flex-start',\n    flexWrap: 'wrap',\n    padding: '6px 6px 14px 6px',\n    borderBottom: '1px solid rgba(255,255,255,0.08)',\n  },\n  title: {\n    margin: 0,\n    fontSize: 28,\n    letterSpacing: '-0.02em',\n    lineHeight: 1.15,\n  },\n  subtitle: {\n    margin: '8px 0 0 0',\n    color: 'rgba(229,231,235,0.80)',\n    maxWidth: 560,\n  },\n  emailWrap: {\n    display: 'grid',\n    gap: 4,\n    padding: '10px 12px',\n    borderRadius: 12,\n    border: '1px solid rgba(255,255,255,0.10)',\n    background: 'rgba(255,255,255,0.04)',\n    minWidth: 240,\n  },\n  emailLabel: {\n    fontSize: 12,\n    color: 'rgba(229,231,235,0.72)',\n    textTransform: 'uppercase',\n    letterSpacing: '0.08em',\n  },\n  emailValue: {\n    fontSize: 14,\n    color: '#e5e7eb',\n    overflow: 'hidden',\n    textOverflow: 'ellipsis',\n    whiteSpace: 'nowrap',\n  },\n  form: {\n    padding: '16px 6px 6px 6px',\n    display: 'grid',\n    gap: 10,\n  },\n  label: {\n    fontSize: 14,\n    fontWeight: 600,\n  },\n  helpText: {\n    margin: 0,\n    fontSize: 13,\n    color: 'rgba(229,231,235,0.75)',\n  },\n  textarea: {\n    width: '100%',\n    resize: 'vertical',\n    minHeight: 220,\n    padding: 14,\n    borderRadius: 14,\n    border: '1px solid rgba(255,255,255,0.14)',\n    background: 'rgba(0,0,0,0.25)',\n    color: '#e5e7eb',\n    outline: 'none',\n    lineHeight: 1.5,\n    fontSize: 14,\n  },\n  actions: {\n    display: 'flex',\n    gap: 10,\n    flexWrap: 'wrap',\n    marginTop: 6,\n  },\n  primaryButton: {\n    border: '1px solid rgba(255,255,255,0.14)',\n    background: 'linear-gradient(180deg, rgba(99,102,241,0.95), rgba(79,70,229,0.95))',\n    color: 'white',\n    padding: '10px 14px',\n    borderRadius: 12,\n    cursor: 'pointer',\n    fontWeight: 600,\n  },\n  secondaryButton: {\n    border: '1px solid rgba(255,255,255,0.14)',\n    background: 'rgba(255,255,255,0.06)',\n    color: '#e5e7eb',\n    padding: '10px 14px',\n    borderRadius: 12,\n    cursor: 'pointer',\n    fontWeight: 600,\n  },\n  errorBox: {\n    borderRadius: 12,\n    border: '1px solid rgba(248, 113, 113, 0.35)',\n    background: 'rgba(248, 113, 113, 0.12)',\n    color: '#fecaca',\n    padding: '10px 12px',\n    fontSize: 13,\n  },\n  successBox: {\n    marginTop: 14,\n    padding: 14,\n    borderRadius: 16,\n    border: '1px solid rgba(16, 185, 129, 0.30)',\n    background: 'rgba(16, 185, 129, 0.10)',\n  },\n  successTitle: {\n    margin: 0,\n    fontSize: 18,\n    letterSpacing: '-0.01em',\n  },\n  successText: {\n    margin: '6px 0 0 0',\n    color: 'rgba(229,231,235,0.85)',\n  },\n  previewBox: {\n    marginTop: 12,\n    borderRadius: 12,\n    border: '1px solid rgba(255,255,255,0.10)',\n    background: 'rgba(0,0,0,0.18)',\n    padding: 12,\n  },\n  previewLabel: {\n    fontSize: 12,\n    color: 'rgba(229,231,235,0.72)',\n    textTransform: 'uppercase',\n    letterSpacing: '0.08em',\n    marginBottom: 8,\n  },\n  previewText: {\n    margin: 0,\n    whiteSpace: 'pre-wrap',\n    wordBreak: 'break-word',\n    fontSize: 13,\n    lineHeight: 1.5,\n    color: '#e5e7eb',\n    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',\n  },\n  footer: {\n    marginTop: 14,\n    paddingTop: 12,\n    borderTop: '1px solid rgba(255,255,255,0.08)',\n  },\n  footerText: {\n    fontSize: 12,\n    color: 'rgba(229,231,235,0.70)',\n  },\n  code: {\n    padding: '2px 6px',\n    borderRadius: 8,\n    border: '1px solid rgba(255,255,255,0.10)',\n    background: 'rgba(0,0,0,0.20)',\n  },\n}'})
+'use client'
+
+import * as React from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+
+export default function TaskPage() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const [email, setEmail] = React.useState('')
+  const [task, setTask] = React.useState('')
+  const [submitted, setSubmitted] = React.useState(false)
+  const [lastSavedTask, setLastSavedTask] = React.useState<string | null>(null)
+  const [error, setError] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    const emailFromUrl = searchParams.get('email')?.trim()
+    const emailFromStorage =
+      typeof window !== 'undefined' ? localStorage.getItem('userEmail') : null
+
+    const resolvedEmail = emailFromUrl || emailFromStorage || ''
+
+    if (!resolvedEmail) {
+      router.replace('/')
+      return
+    }
+
+    setEmail(resolvedEmail)
+
+    try {
+      localStorage.setItem('userEmail', resolvedEmail)
+    } catch {
+      // Ignore storage failures
+    }
+  }, [router, searchParams])
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setError(null)
+    setSubmitted(false)
+
+    const trimmed = task.trim()
+    if (!trimmed) {
+      setError('Please enter a task before submitting.')
+      return
+    }
+
+    setLastSavedTask(trimmed)
+    setSubmitted(true)
+    setTask('')
+  }
+
+  function handleAddAnother() {
+    setSubmitted(false)
+    setError(null)
+    setTask('')
+  }
+
+  function handleBackToEmail() {
+    router.push('/')
+  }
+
+  return (
+    <main style={styles.page}>
+      <div style={styles.card}>
+        <header style={styles.header}>
+          <div>
+            <h1 style={styles.title}>Enter your task</h1>
+            <p style={styles.subtitle}>
+              Add a task description below. This is saved on the frontend only.
+            </p>
+          </div>
+
+          <div style={styles.emailWrap} aria-label='Signed in email'>
+            <span style={styles.emailLabel}>Email</span>
+            <span style={styles.emailValue} title={email}>
+              {email}
+            </span>
+          </div>
+        </header>
+
+        <form onSubmit={handleSubmit} style={styles.form} aria-describedby='task-help'>
+          <label htmlFor='task' style={styles.label}>
+            Task description
+          </label>
+
+          <p id='task-help' style={styles.helpText}>
+            Be as detailed as you like. Use multiple lines for steps, notes, or acceptance criteria.
+          </p>
+
+          <textarea
+            id='task'
+            name='task'
+            value={task}
+            onChange={(e) => {
+              setTask(e.target.value)
+              if (submitted) setSubmitted(false)
+              if (error) setError(null)
+            }}
+            placeholder='Example: Draft a project outline for Q1, including milestones and owners...'
+            rows={10}
+            required
+            style={styles.textarea}
+          />
+
+          {error && (
+            <div role='alert' style={styles.errorBox}>
+              {error}
+            </div>
+          )}
+
+          <div style={styles.actions}>
+            <button type='submit' style={styles.primaryButton}>
+              Save task
+            </button>
+
+            <button type='button' onClick={handleBackToEmail} style={styles.secondaryButton}>
+              Back to email
+            </button>
+          </div>
+        </form>
+
+        {submitted && (
+          <section style={styles.successBox} aria-live='polite'>
+            <h2 style={styles.successTitle}>Saved!</h2>
+            <p style={styles.successText}>Your task was recorded (frontend only).</p>
+
+            {lastSavedTask && (
+              <div style={styles.previewBox}>
+                <div style={styles.previewLabel}>Last saved task</div>
+                <pre style={styles.previewText}>{lastSavedTask}</pre>
+              </div>
+            )}
+
+            <div style={styles.actions}>
+              <button type='button' onClick={handleAddAnother} style={styles.primaryButton}>
+                Add another task
+              </button>
+              <button type='button' onClick={handleBackToEmail} style={styles.secondaryButton}>
+                Edit email
+              </button>
+            </div>
+          </section>
+        )}
+
+        <footer style={styles.footer}>
+          <span style={styles.footerText}>
+            Tip: you can also pass email via URL: <code style={styles.code}>/task?email=you@example.com</code>
+          </span>
+        </footer>
+      </div>
+    </main>
+  )
+}
+
+const styles: Record<string, React.CSSProperties> = {
+  page: {
+    minHeight: '100vh',
+    padding: '24px',
+    display: 'grid',
+    placeItems: 'center',
+    background:
+      'radial-gradient(1200px 600px at 20% 0%, rgba(99, 102, 241, 0.18), transparent 60%), radial-gradient(1200px 600px at 80% 20%, rgba(16, 185, 129, 0.14), transparent 55%), #0b1020',
+    color: '#e5e7eb',
+  },
+  card: {
+    width: '100%',
+    maxWidth: 860,
+    borderRadius: 16,
+    border: '1px solid rgba(255,255,255,0.10)',
+    background: 'rgba(17, 24, 39, 0.72)',
+    boxShadow: '0 20px 60px rgba(0,0,0,0.35)',
+    backdropFilter: 'blur(10px)',
+    padding: 20,
+  },
+  header: {
+    display: 'flex',
+    gap: 16,
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+    padding: '6px 6px 14px 6px',
+    borderBottom: '1px solid rgba(255,255,255,0.08)',
+  },
+  title: {
+    margin: 0,
+    fontSize: 28,
+    letterSpacing: '-0.02em',
+    lineHeight: 1.15,
+  },
+  subtitle: {
+    margin: '8px 0 0 0',
+    color: 'rgba(229,231,235,0.80)',
+    maxWidth: 560,
+  },
+  emailWrap: {
+    display: 'grid',
+    gap: 4,
+    padding: '10px 12px',
+    borderRadius: 12,
+    border: '1px solid rgba(255,255,255,0.10)',
+    background: 'rgba(255,255,255,0.04)',
+    minWidth: 240,
+  },
+  emailLabel: {
+    fontSize: 12,
+    color: 'rgba(229,231,235,0.72)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+  },
+  emailValue: {
+    fontSize: 14,
+    color: '#e5e7eb',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+  },
+  form: {
+    padding: '16px 6px 6px 6px',
+    display: 'grid',
+    gap: 10,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: 600,
+  },
+  helpText: {
+    margin: 0,
+    fontSize: 13,
+    color: 'rgba(229,231,235,0.75)',
+  },
+  textarea: {
+    width: '100%',
+    resize: 'vertical',
+    minHeight: 220,
+    padding: 14,
+    borderRadius: 14,
+    border: '1px solid rgba(255,255,255,0.14)',
+    background: 'rgba(0,0,0,0.25)',
+    color: '#e5e7eb',
+    outline: 'none',
+    lineHeight: 1.5,
+    fontSize: 14,
+  },
+  actions: {
+    display: 'flex',
+    gap: 10,
+    flexWrap: 'wrap',
+    marginTop: 6,
+  },
+  primaryButton: {
+    border: '1px solid rgba(255,255,255,0.14)',
+    background: 'linear-gradient(180deg, rgba(99,102,241,0.95), rgba(79,70,229,0.95))',
+    color: 'white',
+    padding: '10px 14px',
+    borderRadius: 12,
+    cursor: 'pointer',
+    fontWeight: 600,
+  },
+  secondaryButton: {
+    border: '1px solid rgba(255,255,255,0.14)',
+    background: 'rgba(255,255,255,0.06)',
+    color: '#e5e7eb',
+    padding: '10px 14px',
+    borderRadius: 12,
+    cursor: 'pointer',
+    fontWeight: 600,
+  },
+  errorBox: {
+    borderRadius: 12,
+    border: '1px solid rgba(248, 113, 113, 0.35)',
+    background: 'rgba(248, 113, 113, 0.12)',
+    color: '#fecaca',
+    padding: '10px 12px',
+    fontSize: 13,
+  },
+  successBox: {
+    marginTop: 14,
+    padding: 14,
+    borderRadius: 16,
+    border: '1px solid rgba(16, 185, 129, 0.30)',
+    background: 'rgba(16, 185, 129, 0.10)',
+  },
+  successTitle: {
+    margin: 0,
+    fontSize: 18,
+    letterSpacing: '-0.01em',
+  },
+  successText: {
+    margin: '6px 0 0 0',
+    color: 'rgba(229,231,235,0.85)',
+  },
+  previewBox: {
+    marginTop: 12,
+    borderRadius: 12,
+    border: '1px solid rgba(255,255,255,0.10)',
+    background: 'rgba(0,0,0,0.18)',
+    padding: 12,
+  },
+  previewLabel: {
+    fontSize: 12,
+    color: 'rgba(229,231,235,0.72)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+    marginBottom: 8,
+  },
+  previewText: {
+    margin: 0,
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+    fontSize: 13,
+    lineHeight: 1.5,
+    color: '#e5e7eb',
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
+  },
+  footer: {
+    marginTop: 14,
+    paddingTop: 12,
+    borderTop: '1px solid rgba(255,255,255,0.08)',
+  },
+  footerText: {
+    fontSize: 12,
+    color: 'rgba(229,231,235,0.70)',
+  },
+  code: {
+    padding: '2px 6px',
+    borderRadius: 8,
+    border: '1px solid rgba(255,255,255,0.10)',
+    background: 'rgba(0,0,0,0.20)',
+  },
+}
