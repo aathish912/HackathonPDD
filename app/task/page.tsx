@@ -12,6 +12,9 @@ export default function TaskPage() {
   const [submitted, setSubmitted] = React.useState(false)
   const [lastSavedTask, setLastSavedTask] = React.useState<string | null>(null)
   const [error, setError] = React.useState<string | null>(null)
+  const [loading, setLoading] = React.useState(false)
+  const [agentResponse, setAgentResponse] = React.useState<string | null>(null)
+  const [runId, setRunId] = React.useState<string | null>(null)
 
   React.useEffect(() => {
     const emailFromUrl = searchParams.get('email')?.trim()
@@ -34,10 +37,11 @@ export default function TaskPage() {
     }
   }, [router, searchParams])
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError(null)
     setSubmitted(false)
+    setAgentResponse(null)
 
     const trimmed = task.trim()
     if (!trimmed) {
@@ -45,9 +49,36 @@ export default function TaskPage() {
       return
     }
 
+    setLoading(true)
     setLastSavedTask(trimmed)
-    setSubmitted(true)
-    setTask('')
+
+    try {
+      const response = await fetch('http://localhost:8000/task/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          task: trimmed,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.detail || 'Failed to submit task')
+      }
+
+      setRunId(data.run_id)
+      setAgentResponse(data.response)
+      setSubmitted(true)
+      setTask('')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to connect to server')
+    } finally {
+      setLoading(false)
+    }
   }
 
   function handleAddAnother() {
@@ -67,7 +98,7 @@ export default function TaskPage() {
           <div>
             <h1 style={styles.title}>Enter your task</h1>
             <p style={styles.subtitle}>
-              Add a task description below. This is saved on the frontend only.
+              Describe your task and we'll find relevant people on LinkedIn to help you.
             </p>
           </div>
 
@@ -110,25 +141,38 @@ export default function TaskPage() {
           )}
 
           <div style={styles.actions}>
-            <button type='submit' style={styles.primaryButton}>
-              Save task
+            <button type='submit' style={styles.primaryButton} disabled={loading}>
+              {loading ? 'Processing...' : 'Submit Task'}
             </button>
 
-            <button type='button' onClick={handleBackToEmail} style={styles.secondaryButton}>
+            <button type='button' onClick={handleBackToEmail} style={styles.secondaryButton} disabled={loading}>
               Back to email
             </button>
           </div>
         </form>
 
+        {loading && (
+          <section style={styles.loadingBox} aria-live='polite'>
+            <p style={styles.loadingText}>🔄 Finding relevant contacts and sending outreach emails...</p>
+          </section>
+        )}
+
         {submitted && (
           <section style={styles.successBox} aria-live='polite'>
-            <h2 style={styles.successTitle}>Saved!</h2>
-            <p style={styles.successText}>Your task was recorded (frontend only).</p>
+            <h2 style={styles.successTitle}>✅ Task Submitted!</h2>
+            <p style={styles.successText}>The AI agent is reaching out to relevant LinkedIn contacts.</p>
 
             {lastSavedTask && (
               <div style={styles.previewBox}>
-                <div style={styles.previewLabel}>Last saved task</div>
+                <div style={styles.previewLabel}>Your Task</div>
                 <pre style={styles.previewText}>{lastSavedTask}</pre>
+              </div>
+            )}
+
+            {agentResponse && (
+              <div style={styles.previewBox}>
+                <div style={styles.previewLabel}>Agent Response</div>
+                <pre style={styles.previewText}>{agentResponse}</pre>
               </div>
             )}
 
@@ -327,5 +371,18 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: 8,
     border: '1px solid rgba(255,255,255,0.10)',
     background: 'rgba(0,0,0,0.20)',
+  },
+  loadingBox: {
+    marginTop: 14,
+    padding: 14,
+    borderRadius: 16,
+    border: '1px solid rgba(99, 102, 241, 0.30)',
+    background: 'rgba(99, 102, 241, 0.10)',
+    textAlign: 'center',
+  },
+  loadingText: {
+    margin: 0,
+    fontSize: 14,
+    color: '#e5e7eb',
   },
 }
